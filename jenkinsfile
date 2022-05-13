@@ -1,0 +1,17 @@
+pipeline{
+    agent any
+    stages{
+        stage("Build docker image"){
+            steps{
+                script{
+                    echo "BUILDING THE DOCKER IMAGE"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh 'sudo docker build -t poojaj2406/myphpimage:$BUILD_NUMBER .'
+                    sh 'sudo docker login -u $USERNAME -p $PASSWORD'
+                    sh 'sudo docker push poojaj2406/myphpimage:$BUILD_NUMBER'
+                    }
+                   }
+            }   
+        }
+    }
+}
