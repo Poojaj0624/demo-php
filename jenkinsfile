@@ -22,7 +22,9 @@ pipeline{
             steps{
                 script{
                     echo "DEPLOY THE DOCKER COMPOSE"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                     sh "bash ./remote-server.sh ${IMAGE_NAME}"
+                    }
                 }
             }
         }
