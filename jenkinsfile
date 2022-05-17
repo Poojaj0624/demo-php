@@ -1,10 +1,11 @@
 pipeline{
-    agent any
+    agent none
     environment{
         IMAGE_NAME='poojaj2406/myphpimage:$BUILD_NUMBER'
     }
     stages{
         stage("Build docker image"){
+            agent any
             steps{
                 script{
                     echo "BUILDING THE DOCKER IMAGE"
@@ -17,6 +18,7 @@ pipeline{
             }   
         }
         stage("Deploy app via dockercomposefile"){
+            agent{label 'linux_slave'}
             steps{
                 script{
                     echo "DEPLOY THE DOCKER COMPOSE"
